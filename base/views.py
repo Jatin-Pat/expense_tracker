@@ -1,7 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Expense
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 
-def test(request):
-    return HttpResponse('test')
+class ExpenseListView(ListView):
+    model = Expense
 
+class ExpenseDetailView(DetailView):
+    model = Expense
 

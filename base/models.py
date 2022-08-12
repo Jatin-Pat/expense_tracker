@@ -26,7 +26,7 @@ class Expense(models.Model):
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.category + ":" + self.amount + "$"
+        return self.category + ": " + str(self.amount) + " $"
 
     class Meta:
         ordering = ["date"]
