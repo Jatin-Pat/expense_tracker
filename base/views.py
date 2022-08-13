@@ -1,11 +1,15 @@
 from django.shortcuts import render
 from .models import Expense
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
+from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy
 
 class ExpenseListView(ListView):
-    model = Expense
+    object = Expense
 
 class ExpenseDetailView(DetailView):
-    model = Expense
+    object = Expense
 
+class ExpenseCreateView(CreateView):
+    object = Expense
+    fields = '__all__'
+    success_url = reverse_lazy('expense')
