@@ -1,0 +1,20 @@
+<h1>hello</h1>
+
+
+<form method="POST" action="">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Submit">
+</form>
+
+<table>
+    <tr>
+        <th>Expenses</th>
+    </tr>
+    {%for Expense in object_list%}
+    <tr>
+        <td>{{Expense}}</td>
+        <td><a href = "{% url 'Expense-update-view' Expense.id %}">edit</a></td>
+    </tr>
+    {% endfor %}
+</table>

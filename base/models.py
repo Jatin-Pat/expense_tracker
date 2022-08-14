@@ -12,21 +12,21 @@ def validate_positive(value):
 class Expense(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category_choices = [
-        ("housing", "Housing"),
-        ("transportation", "Transportation"),
-        ("food", "Food"),
-        ("utilities", "Utilities"),
-        ("insurance", "Insurance"),
-        ("medical", "Medical & Healthcare"),
-        ("debt", "Dept Payments"),
-        ("personal", "Personal Spending")]
+        ("Housing", "Housing"),
+        ("Transportation", "Transportation"),
+        ("Food", "Food"),
+        ("Utilities", "Utilities"),
+        ("Insurance", "Insurance"),
+        ("Medical", "Medical & Healthcare"),
+        ("Debt", "Dept Payments"),
+        ("Personal", "Personal Spending")]
     category = models.CharField(max_length=15, choices=category_choices, default="housing")
-    sub_category = models.CharField(max_length=200, null=True, blank=True)
+    sub_category = models.CharField(max_length=200)
     amount = models.FloatField(validators=[validate_positive])
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.category + ": " + str(self.amount) + " $"
+        return self.category + " (" + self.sub_category + ") " ": " + str(self.amount) + " $"
 
     class Meta:
         ordering = ["date"]
