@@ -1,5 +1,13 @@
-<h1>hello</h1>
 
+{% if request.user.is_authenticated %}
+<p>{{request.user}}</p>
+<a href = "{% url 'Expense-logout-view' %}"> Logout</a>
+{% else %}
+<a href = "{% url 'Expense-login-view' %}">Login</a>
+{% endif %}
+<br>
+
+<h1>hello</h1>
 
 <form method="POST" action="">
     {% csrf_token %}
