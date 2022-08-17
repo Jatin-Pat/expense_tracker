@@ -1,7 +1,9 @@
 from .models import Expense
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse_lazy
 
 class UserLoginView(LoginView):
@@ -12,6 +14,18 @@ class UserLoginView(LoginView):
     
 class UserLogoutView(LogoutView):
     next_page = 'Expense-login-view'
+
+class UserRegisterForm(FormView):
+    form_class = UserCreationForm
+    template_name = 'base/register.html'
+    redirect_authenticated_user = True
+    success_url = reverse_lazy('Expense-list-view')
+
+    def form_valid(self, form):
+        user = form.save() 
+        if user is not None:
+            login(self.request, user)
+        return super().form_valid(form)
 
 class ExpenseListView(LoginRequiredMixin, CreateView, ListView):
     model = Expense
