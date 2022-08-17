@@ -15,13 +15,22 @@ class UserLogoutView(LogoutView):
 
 class ExpenseListView(LoginRequiredMixin, CreateView, ListView):
     model = Expense
-    fields = '__all__'
+    fields = ['category', 'sub_category', 'amount']
     template_name = 'base/expense.html'
     success_url = reverse_lazy('Expense-list-view')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = context['object_list'].filter(user=self.request.user)
+        return context
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 class ExpenseUpdateView(LoginRequiredMixin, UpdateView):
     model = Expense
-    fields = '__all__'
+    fields = ['category', 'sub_category', 'amount']
     success_url = reverse_lazy('Expense-list-view')
 
 class ExpenseDeleteView(LoginRequiredMixin, DeleteView):
