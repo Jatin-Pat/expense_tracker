@@ -1,4 +1,7 @@
 from django.contrib import admin
 from .models import Expense
 
-admin.site.register(Expense)
+class ExpenseAdmin(admin.ModelAdmin):
+    list_display = ("user", "category", "sub_category", "amount", "date")
+
+admin.site.register(Expense, ExpenseAdmin)

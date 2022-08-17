@@ -1,0 +1,9 @@
+<h1>Search Results</h1>
+
+<ul>
+  {% for Expense in object_list %}
+    <li>
+      {{ Expense.category }}, {{ Expense.sub_category }}
+    </li>
+  {% endfor %}
+</ul>

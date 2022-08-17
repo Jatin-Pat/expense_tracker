@@ -1,3 +1,4 @@
+from unicodedata import category
 from .models import Expense
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -5,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 class UserLoginView(LoginView):
     fields = '__all__'
@@ -41,6 +43,17 @@ class ExpenseListView(LoginRequiredMixin, CreateView, ListView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+class ExpenseSearchView(ListView):
+    model = Expense
+    template_name = 'base/search_result.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        object_list = Expense.objects.filter(
+            Q(category__icontains=query) | Q(sub_category__icontains=query)
+        )
+        return object_list
 
 class ExpenseUpdateView(LoginRequiredMixin, UpdateView):
     model = Expense
